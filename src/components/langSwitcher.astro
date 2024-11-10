@@ -1,0 +1,25 @@
+---
+import { languages } from "../i18n";
+---
+
+<label class="relative">
+  <input type="checkbox" class="hidden peer" />
+  <span
+    class="block cursor-pointer hover:animate-wiggle hover:text-[var(--md-sys-color-primary)]"
+  >
+    <i class="fa-solid fa-language"></i>
+  </span>
+  <ul
+    class="shadow absolute pt-1 pb-2 px-4 right-0 mt-1 bg-[var(--md-sys-color-surface-bright)] text-[var(--md-sys-color-on-surface)] rounded-lg hidden peer-checked:block"
+  >
+    {
+      Object.entries(languages).map(([lang, label]) => (
+        <li class="py-1 relative text-base after:absolute after:block after:duration-300 after:-bottom-1 after:hover:bottom-0 after:opacity-0 after:hover:opacity-100 after:hover:h-[3px] after:w-full after:hover:bg-[var(--md-sys-color-primary)]">
+          <a class="inline-block w-full h-full" href={`/${lang}/`}>
+            {label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</label>

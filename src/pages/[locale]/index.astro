@@ -1,0 +1,162 @@
+---
+import DefaultLayout from "../../layouts/default.astro";
+import { useTranslations } from "../../i18n/utils";
+import { getCollection } from "astro:content";
+
+export function getStaticPaths() {
+  return [
+    { params: { locale: "uz" } },
+    { params: { locale: "ru" } },
+    { params: { locale: "en" } },
+  ];
+}
+
+const { locale } = Astro.params as { locale: "uz" | "ru" | "en" };
+const t: any = useTranslations(locale);
+const posts = await getCollection("posts", ({ id, data }) => {
+  return import.meta.env.MODE === "development"
+    ? id.startsWith(locale)
+    : !data.isDraft && id.startsWith(locale);
+});
+const mode = import.meta.env.MODE;
+const currentDate = new Date();
+const birthDate = new Date(2000, 7, 25);
+---
+
+<DefaultLayout locale={locale} title="">
+  <div class="grid grid-cols-7 gap-6 max-md:grid-cols-1">
+    <section class="col-span-5 max-md:col-span-1 max-md:order-last">
+      <div
+        class="mb-2 mx-2 text-xl font-semibold font-mono flex justify-between"
+      >
+        <h2>
+          {t("posts.head")}
+          {mode}
+        </h2>
+        <a
+          href=`/${locale}/posts`
+          class="hover:text-[var(--md-sys-color-primary)] pr-1 pl-0 duration-150 hover:pr-0 hover:pl-1"
+        >
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+      <div class="space-y-4">
+        {
+          posts.map((post) => (
+            <article class="block bg-[var(--md-sys-color-surface-container)] px-5 py-3 md:px-6 md:py-4 rounded-lg">
+              <h3 class="block pb-2 text-lg font-medium w-full">
+                <a
+                  href={post.slug.replace(`${locale}`, `/${locale}/posts`)}
+                  class="relative hover:text-[var(--md-sys-color-primary)] hover:underline"
+                >
+                  {post.data.title}
+                </a>
+              </h3>
+              <div class="flex flex-wrap justify-end mt-2 space-x-2">
+                {post.data.tags.map((tag) => (
+                  <a
+                    href="#"
+                    class="font-medium rounded my-1 text-sm px-2 py-1 duration-150 bg-[var(--md-sys-color-tertiary)] text-[var(--md-sys-color-on-tertiary)] hover:outline hover:outline-2 hover:outline-[var(--md-sys-color-outline)]"
+                  >
+                    {tag}
+                  </a>
+                ))}
+                <a
+                  href="#"
+                  class="font-medium rounded my-1 text-sm px-2 py-1 duration-150 bg-[var(--md-sys-color-secondary)] text-[var(--md-sys-color-on-secondary)] hover:outline hover:outline-2 hover:outline-[var(--md-sys-color-outline)]"
+                >
+                  {post.data.publishDate.toISOString().slice(0, 10)}
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+    <section class="col-span-2 max-md:col-span-1">
+      <div
+        class="mb-2 mx-2 text-xl font-semibold font-mono flex justify-between"
+      >
+        <h2>
+          {t("profile").head}
+        </h2>
+        <a
+          href=`/${locale}/profile`
+          class="hover:text-[var(--md-sys-color-primary)] pr-1 pl-0 duration-150 hover:pr-0 hover:pl-1"
+        >
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+      <ul
+        class="text-base bg-[var(--md-sys-color-surface-container)] px-5 py-3 md:px-6 md:py-4 rounded-lg"
+      >
+        <li class="my-1">
+          <strong>{t("profile")["firstname.label"]}:</strong>
+          {t("profile").firstname}
+        </li>
+        <li class="my-1">
+          <strong>{t("profile")["middlename.label"]}:</strong>
+          {t("profile").middlename}
+        </li>
+        <li class="my-1">
+          <strong>{t("profile")["lastname.label"]}:</strong>
+          {t("profile").lastname}
+        </li>
+        <li class="my-1">
+          <strong>{t("profile")["age.label"]}:</strong>
+          {
+            Math.floor(
+              (currentDate.getFullYear() * 12 +
+                currentDate.getMonth() +
+                1 -
+                (birthDate.getFullYear() * 12 + birthDate.getMonth() + 1)) /
+                12
+            )
+          }
+        </li>
+        <li class="mt-4">
+          <address>
+            <ul class="flex text-xl space-x-4">
+              <li>
+                <a
+                  target="_blank"
+                  class="block hover:animate-wiggle hover:underline hover:text-[var(--md-sys-color-primary)] hover:scale-105"
+                  href="https://github.com/shukrullojonappdev"
+                >
+                  <i class="fa-brands fa-github"></i>
+                </a>
+              </li>
+              <li>
+                <a
+                  target="_blank"
+                  class="block hover:animate-wiggle hover:underline hover:text-[var(--md-sys-color-primary)] hover:scale-105"
+                  href="https://t.me/shukrullojondev"
+                >
+                  <i class="fa-brands fa-telegram"></i>
+                </a>
+              </li>
+              <li>
+                <a
+                  target="_blank"
+                  class="block hover:animate-wiggle hover:underline hover:text-[var(--md-sys-color-primary)] hover:scale-105"
+                  href="https://www.linkedin.com/in/shukrullojon-raxmatulloyev-7476b3244/"
+                >
+                  <i class="fa-brands fa-linkedin"></i>
+                </a>
+              </li>
+              <li>
+                <a
+                  target="_blank"
+                  class="block hover:animate-wiggle hover:underline hover:text-[var(--md-sys-color-primary)] hover:scale-105"
+                  href="mailto:shukrullojon.dev@gmail.com"
+                >
+                  <i class="fa-solid fa-envelope"></i>
+                </a>
+              </li>
+            </ul>
+          </address>
+        </li>
+      </ul>
+    </section>
+  </div>
+</DefaultLayout>

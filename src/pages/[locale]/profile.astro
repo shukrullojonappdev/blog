@@ -1,0 +1,17 @@
+---
+import DefaultLayout from "../../layouts/default.astro";
+
+export function getStaticPaths() {
+  return [
+    { params: { locale: "uz" } },
+    { params: { locale: "ru" } },
+    { params: { locale: "en" } },
+  ];
+}
+
+const { locale } = Astro.params;
+---
+
+<DefaultLayout locale={locale}>
+  <h1>profile</h1>
+</DefaultLayout>

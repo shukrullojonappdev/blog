@@ -1,0 +1,58 @@
+---
+import "../styles/dark.css";
+import "../styles/light.css";
+import ThemeSwitcher from "../components/themeSwitcher.astro";
+import LangSwitcher from "../components/langSwitcher.astro";
+const { locale, title } = Astro.props;
+---
+
+<html lang={locale} class="h-full w-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/x-icon" href="/favicon.svg" />
+    <link rel="sitemap" href="https://shukrullojondev.uz/sitemap-index.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@500&family=Noto+Sans&family=Noto+Sans+Mono:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      is:inline
+      src="https://kit.fontawesome.com/bed28f6078.js"
+      crossorigin="anonymous"></script>
+    <title>{title}</title>
+  </head>
+  <body
+    class="bg-[var(--md-sys-color-background)] text-[var(--md-sys-color-on-background)] relative h-full w-full"
+  >
+    <div class="container max-w-5xl mx-auto px-4">
+      <header class="h-28 max-sm:h-16 flex justify-between items-center">
+        <h1 class="font-cust text-2xl">
+          <a href=`/${locale}/`> Shukrullojondev </a>
+        </h1>
+        <ul class="flex space-x-8 text-xl max-sm:text-lg max-sm:space-x-4">
+          <li
+            class="hover:animate-wiggle hover:text-[var(--md-sys-color-primary)]"
+          >
+            <button><span><i class="fa-solid fa-rss"></i></span></button>
+          </li>
+          <li
+            class="hover:animate-wiggle hover:text-[var(--md-sys-color-primary)]"
+          >
+            <ThemeSwitcher />
+          </li>
+          <li>
+            <LangSwitcher />
+          </li>
+        </ul>
+      </header>
+      <main class="font-sans">
+        <slot />
+      </main>
+    </div>
+    <script src="../scripts/init.ts"></script>
+  </body>
+</html>
