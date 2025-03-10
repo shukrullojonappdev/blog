@@ -1,0 +1,48 @@
+---
+import type { ISkill } from "../interfaces/skill";
+
+const skillsResponse = await fetch("http://localhost:8055/items/skills");
+const skillsResult = await skillsResponse.json();
+const skills: ISkill[] = skillsResult.data;
+---
+
+<!-- Info column -->
+<div class="max-w-48 flex flex-col mt-8 gap-8 ml-8">
+  <div class="relative">
+    <div class="w-32 h-32 rounded-full overflow-hidden">
+      <img
+        src="/person.jpg"
+        alt="avatar"
+        class="h-full"
+        style="object-fit: cover;"
+      />
+    </div>
+    <button
+      class="uk-btn uk-btn-ghost uk-btn-icon absolute bottom-0 right-0"
+      data-uk-tooltip="title: CV yuklab olish; pos: top-right"
+    >
+      <uk-icon icon="download"></uk-icon>
+    </button>
+  </div>
+  <div>
+    <div class="mb-4">
+      <strong class="uk-h2">Shukrullojon <br /> Raxmatulloyev</strong>
+    </div>
+    <div class="w-full">
+      {
+        skills.map((skill) => (
+          <div class="flex w-full items-center justify-between gap-4">
+            <>
+              <span class="uk-text-base">{skill.name}</span>
+              <progress
+                class="uk-progress h-1 w-20 m-0"
+                value={skill.value}
+                max="100"
+              />
+            </>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>

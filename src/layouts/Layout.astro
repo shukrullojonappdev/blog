@@ -1,22 +1,78 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Franken UI</title>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        /* Set font */
+        font-family: "Roboto", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+        font-variation-settings: "wdth" 100;
+      }
+    </style>
+
+    <!-- For stability in production, it's recommended that you hardcode the latest version in the CDN link. -->
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/franken-ui@internal/dist/css/core.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/franken-ui@internal/dist/css/utilities.min.css"
+    />
+
+    <script>
+      const htmlElement = document.documentElement;
+
+      const __FRANKEN__ = JSON.parse(
+        localStorage.getItem("__FRANKEN__") || "{}",
+      );
+
+      if (
+        __FRANKEN__.mode === "dark" ||
+        (!__FRANKEN__.mode &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        htmlElement.classList.add("dark");
+      } else {
+        htmlElement.classList.remove("dark");
+      }
+
+      htmlElement.classList.add(__FRANKEN__.theme || "uk-theme-zinc");
+      htmlElement.classList.add(__FRANKEN__.radii || "uk-radii-md");
+      htmlElement.classList.add(__FRANKEN__.shadows || "uk-shadows-sm");
+      htmlElement.classList.add(__FRANKEN__.font || "uk-font-sm");
+      htmlElement.classList.add(__FRANKEN__.chart || "uk-chart-default");
+    </script>
+
+    <script
+      type="module"
+      src="https://unpkg.com/franken-ui@internal/dist/js/core.iife.js"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/franken-ui@internal/dist/js/icon.iife.js"></script>
+
+    <!-- <script
+      type="module"
+      src="https://unpkg.com/franken-ui@internal/dist/js/chart.iife.js"
+    ></script> -->
+
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  </head>
+  <body class="bg-background text-foreground">
+    <slot />
+  </body>
+</html>

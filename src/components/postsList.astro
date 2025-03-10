@@ -1,0 +1,60 @@
+---
+import type { IPost } from "../interfaces/post";
+import PostsListItem from "./postsListItem.astro";
+
+const postsResponse = await fetch(
+  "http://localhost:8055/items/posts?fields=*.*",
+);
+const postsResult = await postsResponse.json();
+const posts: IPost[] = postsResult.data;
+---
+
+<div class="w-full mt-8 flex flex-col gap-8">
+  <div class="flex justify-between md:hidden block">
+    <button
+      class="uk-btn uk-btn-default  uk-btn-icon"
+      type="button"
+      data-uk-toggle="target: #offcanvas-left"
+    >
+    <uk-icon icon="panel-left"></uk-icon>
+    </button>
+    <button
+      class="uk-btn uk-btn-default   uk-btn-icon"
+      type="button"
+      data-uk-toggle="target: #offcanvas-right"
+    >
+    <uk-icon icon="panel-right"></uk-icon>
+    </button>
+  </div>
+  <div class="flex justify-between md:block hidden">
+    <a class="uk-btn uk-btn-default" href="#modal-center" data-uk-toggle>
+      <uk-icon icon="search" class="mr-2"></uk-icon> Qidirish
+    </a>
+
+    <div id="modal-center" class="uk-flex-top" data-uk-modal>
+      <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div id="posts-view" class="overflow-y-auto">
+    <div class="flex flex-col gap-6 pb-8">
+      {
+        posts.map((post) => (
+          <>
+            <PostsListItem post={post} />
+            <hr class="uk-hr mr-0 md:mr-8" />
+          </>
+        ))
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+---
+const { post } = Astro.props;
+---
+
+<div class="md:mr-8 mr-0 mb-2">
+  <a href="/posts/1" class="uk-h3 uk-link-text">
+    {post.title}
+  </a>
+  <div class="flex justify-between mt-3">
+    <div class="flex gap-2">
+      {
+        post.tags.map((tag: any) => (
+          <span class="uk-badge" style="cursor: pointer;">
+            {tag.tags_value}
+          </span>
+        ))
+      }
+    </div>
+    <div class="flex justify-between items-center gap-4">
+      <span
+        class="flex items-center gap-1"
+        style="cursor: pointer;"
+        data-uk-tooltip="Hello World"
+      >
+        <uk-icon icon="eye" class="mb-0.5"></uk-icon>{post.views}</span
+      >
+      <span
+        class="flex items-center gap-1"
+        style="cursor: pointer;"
+        data-uk-tooltip="Hello World"
+      >
+        <uk-icon icon="calendar" class="mb-0.5"></uk-icon>{
+          () => new Date(post.date_created).toLocaleString().split(",", 1)[0]
+        }</span
+      >
+    </div>
+  </div>
+</div>
